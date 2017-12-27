@@ -19,7 +19,7 @@ module.exports = {
   broadcast(sockets, sock, text) {
     sockets.forEach((socket) => {
       if (socket !== sock) {
-        var intro = socket.name + "[" + this.getDate() + "]: ";
+        var intro = sock.name + "[" + this.getDate() + "]: ";
         var content = (text + '\n');
         socket.write(intro.cyan + content);
       }
