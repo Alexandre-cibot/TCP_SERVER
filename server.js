@@ -1,7 +1,8 @@
 var net = require('net');
 var F = require('./functions.js');
 var colors = require('colors');
-var serverAddr = '127.0.0.1'//'51.255.44.197';
+var mode = process.argv[3] || 'prod';
+var serverAddr = mode === 'dev' ? '127.0.0.1' : '51.255.44.197';
 var serverPort = 6666;
 var sockets = [];
  
