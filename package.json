@@ -1,13 +1,13 @@
 {
   "name": "tcp_server",
   "version": "1.0.0",
-  "description": "",
-  "main": "functions.js",
+  "description": "TCP chat",
+  "main": "server.js",
   "scripts": {
     "start": "NODE_ENV=prod node server.js",
     "dev": "NODE_ENV=dev nodemon server.js"
   },
-  "author": "",
+  "author": "Alexandre Cibot",
   "license": "ISC",
   "dependencies": {
     "colors": "^1.1.2",
