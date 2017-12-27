@@ -1,8 +1,8 @@
 var net = require('net');
 var F = require('./functions.js');
 var colors = require('colors');
-var mode = process.argv[3] || 'prod';
-var serverAddr = mode === 'dev' ? '127.0.0.1' : '51.255.44.197';
+var serverMode = process.argv[2] || 'prod';
+var serverAddr = serverMode === 'dev' ? '127.0.0.1' : '51.255.44.197';
 var serverPort = 6666;
 var sockets = [];
  
@@ -29,7 +29,7 @@ var server = net.createServer(function(sock) {
 }); 
  
 server.listen(serverPort, serverAddr);
-console.log('Server Created at ' + serverAddr + ':' + serverPort + '\n');
+console.log(`Server ${serverMode} created at ${serverAddr}:${serverPort} \n`);
 
 function getUserName(sock, data = '') {
     if (!data) {
