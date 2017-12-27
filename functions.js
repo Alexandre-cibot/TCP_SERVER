@@ -2,15 +2,13 @@
 module.exports = {
   welcome(sock) {
     sock.write('Welcome to the Alexander\'s TCP chat.'.magenta + '\n');
-    sock.write('To quit the connection enter: '.yellow +  'exit'.red + '\n');
+    sock.write('To quit the connection enter: '.yellow +  'exit'.red + ' or '.yellow + 'Ctrl+C '.red + '\n');
   },
   killClient(sockets, sock) {
     console.log('Disconnected: ' + sock.name + '\n');
     sock.destroy();
     var idx = sockets.indexOf(sock);
-    console.log(sockets.length);
     sockets.splice(idx, 1);
-    console.log(sockets.length);
     console.log('Current users number: '.magenta + sockets.length);
     this.serverBroadcast(sockets, sock, sock.name, 'has left the conversation');
     return;
@@ -39,12 +37,13 @@ module.exports = {
   },
   handleNewMessage(data, sockets, sock) {
     let text = data.toString('utf8').trim();
-    if (!text) return;
-    console.log(`${sock.name} says: ${text}`);
-    if (text == 'exit') {
-      this.killClient(sockets, sock);
-      return;
+    // if Ctrl+C;
+    if (text.charCodeAt(0) === 65533 || text === 'exit') {
+        sock.end()
+        return;
     }
+    if ( !text || (typeof text !== 'string') ) return;
+    console.log(`${sock.name} says: ${text}`);
     this.broadcast(sockets, sock, text);
   },
   getUserName(sockets, sock, data = '') {
@@ -58,6 +57,7 @@ module.exports = {
       sock.write(`Welcome to the channel ${name} \n`.green);
       sock.write(`Nombre de connecté : ${sockets.length} \n`.yellow);
       this.serverBroadcast(sockets, sock, sock.name, 'has joined the conversation');
+      console.log(`Connection: ${name}`);
     }
   }
 }
