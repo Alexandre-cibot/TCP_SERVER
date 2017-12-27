@@ -1,5 +1,4 @@
-// Using this modul require 'colors' in the parent.
-
+// Using this module require 'colors' in the parent.
 module.exports = {
   welcome(sock) {
     sock.write('Welcome to the Alexander\'s TCP chat.'.magenta + '\n');
@@ -47,5 +46,18 @@ module.exports = {
       return;
     }
     this.broadcast(sockets, sock, text);
+  },
+  getUserName(sockets, sock, data = '') {
+    if (!data) {
+      sock.write('Please enter your name:'.magenta + '\n');
+    }
+    else {
+      let name = data.toString('utf8').trim();
+      name = name ? name : 'Un anonyme fdp';
+      sock.name = name;
+      sock.write(`Welcome to the channel ${name} \n`.green);
+      sock.write(`Nombre de connecté : ${sockets.length} \n`.yellow);
+      this.serverBroadcast(sockets, sock, sock.name, 'has joined the conversation');
+    }
   }
 }
